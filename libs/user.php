@@ -16,6 +16,9 @@ class user {
   	$this->mysql = new mysql();
     $this->settings = new settings ();
   }
+  function validate() {
+  	/** TODO: Write validation method */
+  }
   function register(){
     //Make sure user can register. ie not banned etc
     if ($this->canRegister ()) {
