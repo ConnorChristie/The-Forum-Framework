@@ -2,8 +2,9 @@
 
 class tffw_exception extends Exception {
 
-  public function __construct(){
-    parent::__construct ();
+  public function __construct($message,$weight){
+    $this->message = $message;
+    $this->weight = $weight;
 
   }
   public function drawErrorPage(){

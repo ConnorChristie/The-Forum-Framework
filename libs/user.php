@@ -8,17 +8,15 @@ class user {
 
   public $banned, $user_type, $username, $user_password, $user_email, $user_first_name, $user_last_name, $user_city, $user_country, $user_ip, $settings;
   public $logged_in = 0;
-  /**
-   * Checks if user has permission to register, then inserts all user data into database.
-   * @return bool
-   */
+
   function __construct(){
   	$this->mysql = new mysql();
     $this->settings = new settings ();
   }
-  function validate() {
-  	/** TODO: Write validation method */
-  }
+  /**
+   * Checks if user has permission to register, then inserts all user data into database.
+   * @return bool
+   */
   function register(){
     //Make sure user can register. ie not banned etc
     if ($this->canRegister ()) {
