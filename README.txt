@@ -7,3 +7,5 @@ This provides a more familiar, user friendly CMS.
 TFFW is not limited towards just forums. You can easily modify it to create other CMS programs, such as a blog or something more ambitious
 
 TFFW is licenced under the GNU General Public License, version 3 (GPLv3). For more information, see licence.txt
+
+USING TFFW AS IT IS NOW IS EXTREMELY UNRECOMMENDED. THE CODE IS MOST LIKELY TO CHANGE DRAMATICALLY AS I DEVELOP IT
