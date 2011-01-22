@@ -15,7 +15,7 @@ Rather than force you to use architecture like MVC, it lets you design your appl
 When you first extract the package you will be presented with a structure that is easy to adapt to use in any style you like.
 The idea is that you have an object for each object on the site. A forum is full of objects; posts, users, emails, messages, forums, threads and much more.
 For example when you want to register a new user, you can simply create a new user object, set the variables you want using the classes setters. When your user object is populated with a username, email address etc. then you can use the register method to insert it into your database, all in one line of code.
-The same goes for a login; you make a new user, set the variables from an html form and then when the username/email and password are set on the object, you use the login function, to check the username and password where right and to make a new session.
+The same goes for a login; you make a new user, set the variables from an HTML form and then when the username/email and password are set on the object, you use the login function, to check the username and password where right and to make a new session.
 Example:
 
     <?php
@@ -23,6 +23,7 @@ Example:
 	    $user->setUsername($_POST['username']);
 	    $user->setPassword($_POST['password']);
 	    $user->login();
+            $user->setSetUserSession();
     ?>
 
 ##License 
