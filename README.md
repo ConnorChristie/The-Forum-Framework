@@ -20,8 +20,8 @@ Example:
 
     <?php
 	    $user = new user();
-	    $user->setUsername($_POST[‘username’]);
-	    $user->setPassword($_POST[‘password’]);
+	    $user->setUsername($_POST['username']);
+	    $user->setPassword($_POST['password']);
 	    $user->login();
     ?>
 
