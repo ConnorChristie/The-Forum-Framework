@@ -88,7 +88,17 @@ class user {
       return false;
   }
   public function setUserSession(){
-    $_SESSION [$this->username] = $this;
+    $_SESSION ['user'] = $this;
+  }
+  public function getUser_id(){
+  	$sql = $this->mysql->query("
+  		SELECT *
+  		FROM `users`
+  		WHERE `username` = '$this->username'
+  	");
+  	$row = mysql_fetch_array($sql);
+  	$id = $row['id'];
+  	return $id;
   }
   public function setUser_ip($user_ip){
     $this->user_ip = $user_ip;
