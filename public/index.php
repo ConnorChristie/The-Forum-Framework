@@ -2,14 +2,19 @@
 /**
  * This file handles all the requests from the url and passes them on the the correct library file.
  */
+
 //Set constants.
+
 define('DS', DIRECTORY_SEPARATOR);
 define('ROOT', dirname(dirname(__FILE__)));
-
 //Autoload the library files
 function __autoload($class_name){
-  include '../libs/' . $class_name . '.php';
+  include ROOT . DS . 'libs' . DS . $class_name . '.php';
 }
+$settings = new settings();
+define('ADDRESS' , $settings->address);
+
+
 //Set arrays for the url data
 $url_array = explode ( '/', $url );
 $model = $url_array [0];
@@ -25,8 +30,8 @@ try {
     include ROOT.DS."application".DS.$model.DS.$model.".php";
   }
   else
-    throw new tffw_error ( 100, "Controller not found for $model" );
+    throw new tffw_exception ("Controller not found for $model", 'Fatal error');
 }
-catch ( tffw_error $e ) {
-	exit($e->getMessage());;
+catch ( tffw_exception $e ) {
+	include ( ROOT . DS . "templates".DS."404.html");
 }

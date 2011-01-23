@@ -6,7 +6,7 @@ try {
     include ROOT.DS."application".DS.$model.DS.$action.".php";
   }
   else
-    throw new tffw_error ( 100, "Controller not found for $action" );
+    throw new tffw_exception ( 100, "Controller not found for $action" );
 }
 catch ( tffw_error $e ) {
 	exit($e->getMessage());;

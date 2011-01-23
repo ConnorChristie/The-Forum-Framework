@@ -10,7 +10,7 @@ class user {
   public $logged_in = 0;
 
   function __construct(){
-  	$this->mysql = new mysql();
+    $this->mysql = new mysql ();
     $this->settings = new settings ();
   }
   /**
@@ -19,13 +19,12 @@ class user {
    */
   function register(){
     //Make sure user can register. ie not banned etc
+    //Connect to database and insert data.
+    $ip = $_SERVER ['REMOTE_ADDR'];
     if ($this->canRegister ()) {
-      //Connect to database and insert data.
-      if (! mysql_connect ( $this->settings->mysql_server, $this->settings->mysql_username, $this->settings->mysql_password )) throw new Exception ( "<h1>Fatal Error!</h1>Could not connect to user database table!<br />" . mysql_error () );
-      if (! mysql_select_db ( $this->settings->mysql_database )) throw new Exception ( "<h1>Fatal Error!</h1>Could not connect to user database table!<br />" . mysql_error () );
-      $ip = $_SERVER ['REMOTE_ADDR'];
-      if (! mysql_query (
-          "
+      try {
+        $this->mysql->query (
+            "
 					INSERT INTO users(
 					`username`,
 					`password`,
@@ -44,10 +43,13 @@ class user {
 					'$this->user_city',
 					'$this->user_country',
 					'$this->user_ip')
-					" )) throw new mysql_exception ( "User could not be inserted into database", mysql_error (), 'Fatal MySQL Error' );
-      mysql_close ();
+					" );
+      }
+      catch ( tffw_exception $e ) {
+        throw new tffw_exception ( "User could not be inserted into database", 'Fatal MySQL Error' );
+        $e->reportError ();
+      }
     }
-
   }
 
   /**
@@ -59,9 +61,6 @@ class user {
     if ($this->canLogin ()) {
       //Set IP address var
       $ip = $_SERVER ['REMOTE_ADDR'];
-      //Validate form data
-      if (empty($this->username)) {throw new tffw_error(900, 'Username not defined for login'); return false;}
-      if (empty($this->user_password)) {throw new tffw_error(901, 'Password not defined for login'); return false;}
       //Check username and password
       $sql = $this->mysql->query ( "
 						SELECT *
@@ -75,11 +74,17 @@ class user {
         //Set logged_in var
         $this->logged_in = 1;
         //Update IP in database
-        mysql_query ( "
+        try{
+        $this->mysql->query ( "
 						UPDATE `users`
 						SET `last_ip`='$ip'
 						WHERE username = '$this->username'
-				" ) or die ( mysql_error () );
+				" );
+        } catch (tffw_exception $e){
+        	throw new tffw_exception ( "Users IP could not be updated in database", 'Fatal MySQL Error' );
+       		$e->reportError ();
+       		return false;
+        }
         //Return true
         return true;
       }
@@ -91,14 +96,14 @@ class user {
     $_SESSION ['user'] = $this;
   }
   public function getUser_id(){
-  	$sql = $this->mysql->query("
+    $sql = $this->mysql->query ( "
   		SELECT *
   		FROM `users`
   		WHERE `username` = '$this->username'
-  	");
-  	$row = mysql_fetch_array($sql);
-  	$id = $row['id'];
-  	return $id;
+  	" );
+    $row = mysql_fetch_array ( $sql );
+    $id = $row ['id'];
+    return $id;
   }
   public function setUser_ip($user_ip){
     $this->user_ip = $user_ip;
