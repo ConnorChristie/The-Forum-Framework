@@ -26,5 +26,7 @@ Example:
             $user->setSetUserSession();
     ?>
 
+For the full documentation, see http://tffw.ttocskcaj.com/docs/ (soon to come...)
+	
 ##License 
 TFFW is licenced under the GNU General Public License, version 3 (GPLv3)

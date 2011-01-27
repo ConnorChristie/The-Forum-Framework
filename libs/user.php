@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * User Class. Handles everything user related. Registration, Login, Sessions etc.
  * @author Jack Scott <jack@ttocskcaj.com>
  * @copyright Copyright 2011 Jack Scott
- * @license GNU General Public License Version 3
+ * @license GPLv3
  * @version alpha
  */
 class user {
