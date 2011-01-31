@@ -18,19 +18,23 @@ z
 */
 /**
  * Controls and processes session files in the session directory.
+ *
+ * Session files are used to keep track of online users.
+ * A new session file is created when a session object is created. And destroyed when it's unset.
+ *
  * @author Jack Scott <jack@ttocskcaj.com>
  * @copyright Copyright 2011 Jack Scott
  * @license GNU General Public License Version 3
  * @version alpha
  */
 class session_file {
+	public $file;
 	/**
 	 * Creates session file
 	 */
 	function createFile() {
 		$data = "id = " . $this->id . "
-username = " . $this->username . "
-expires = " . $this->expires;
+username = " . $this->username;
 
 		$filename = "../sessions/" . $this->id . ".ses";
 

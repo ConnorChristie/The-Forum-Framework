@@ -25,36 +25,46 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 class session extends session_file {
 
-  public $id;
-  public $username;
-  public $expires;
+	public $id;
+	public $username;
 
-  function __construct($id, $username, $expires){
-    $this->id = $id;
-    $this->username = $username;
-    $this->expires = $expires;
-    if (! $this->sessionExists ()) {
-      $this->createSession ();
-    }
+	/**
+	 * @return the $id
+	 */
+	public function getId() {
+		return $this->id;
+	}
 
-  }
-  function createSession(){
-    $this->createFile ();
-    $_SESSION [$this->id] = array ("id" => $this->id, "username" => $this->username, "expires" => $this->expires );
-  }
-  function sessionExists(){
-    if ($this->fileExists () && (isset ( $_SESSION [$this->id] ))) {
-    	/*TODO: Write session expirery check */
-    	//A complete session was found. It has not expired.
-      return true;
-    }
-    else {
-    	//Session data is missing or not complete. Delete any incomplete data.
-      if(isset($_SESSION)) unset ( $_SESSION [$this->id] );
-      $this->deleteFile ();
-      return false;
-    }
-  }
+	/**
+	 * @return the $username
+	 */
+	public function getUsername() {
+		return $this->username;
+	}
+
+	/**
+	 * @param field_type $id
+	 */
+	public function setId($id) {
+		$this->id = $id;
+	}
+
+	/**
+	 * @param field_type $username
+	 */
+	public function setUsername($username) {
+		$this->username = $username;
+	}
+
+	function __construct($username,$session_id) {
+		$this->username = $username;
+		$this->id = $session_id;
+		$this->createFile();
+	}
+	function __destruct(){
+		$this->deleteFile();
+	}
+
 
 }
 
