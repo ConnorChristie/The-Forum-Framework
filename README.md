@@ -1,15 +1,7 @@
 ##Quick Warning
 TFFW is currently in an unstable state. I have just begun developing, so it is likely to change dramatically.
 
-##About TFFW
-The Forum Framework (TFFW) is a php framework aimed towards creating internet forums and bulletin boards. 
-Like the popular forum content management systems (CMS), such as phpbb and mybb, TFFW lets you make your very own forum. 
-Unlike these TFFW is not a cms. Instead it is a php framework that allows you to write a brand new forum CMS quickly and easily. 
-This allows you to create your forum exactly the way you want. 
-If you can't, or don't want to create a new forum CMS from scratch, you can use one of our great templates. This provides a more familiar, user friendly CMS. 
-TFFW is not limited towards just forums. You can easily modify it to create other CMS programs, such as a blog or something more ambitious
-
-##How it works
+##A quick example
 TFFW is more a collection of php classes than a traditional framework like Zend, Cake and CodeIgniter. 
 Rather than force you to use architecture like MVC, it lets you design your application however you want.
 When you first extract the package you will be presented with a structure that is easy to adapt to use in any style you like.
@@ -28,5 +20,18 @@ Example:
 
 For the full documentation, see http://tffw.ttocskcaj.com/docs/ (soon to come...)
 	
-##License 
-TFFW is licenced under the GNU General Public License, version 3 (GPLv3)
+##License Info
+Copyright (C) 2011 Jack Scott
+ 
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+ 
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+ 
+You should have received a copy of the GNU General Public License
+along with this program (license.txt).  If not, see http://www.gnu.org/licenses/
