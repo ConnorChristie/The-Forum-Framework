@@ -22,67 +22,86 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * @copyright Copyright 2010
  * @version 1.0
  */
-class message{
-	public 	$message_title, $message_subject,
-			$message_timestamp,
-			$message_body;
-	function __construct(){
-		$this->settings = new settings();
+class message {
+	/**
+	 * Title of the message
+	 * @var String
+	 */
+	public $title;
+	/**
+	 * Subject of the message
+	 * @var String
+	 */
+	public $subject;
+	/**
+	 * Timestamp of the message
+	 * @var unknown_type
+	 */
+	public $timestamp;
+	/**
+	 * The messages actual text
+	 * @var unknown_type
+	 */
+	public $body;
+
+	function __construct() {
+		$this->settings = new settings ();
+		$this->mysql = new mysql();
 	}
 	/**
-	 * @return String
+	 * @return the $title
 	 */
-	public function getMessage_title() {
-		return $this->message_title;
+	public function getTitle() {
+		return $this->title;
 	}
 
 	/**
-	 * @return String
+	 * @param field_type $title
 	 */
-	public function getMessage_subject() {
-		return $this->message_subject;
+	public function setTitle($title) {
+		$this->title = $title;
 	}
 
 	/**
-	 * @return String
+	 * @return the $subject
 	 */
-	public function getMessage_timestamp() {
-		return $this->message_timestamp;
+	public function getSubject() {
+		return $this->subject;
 	}
 
 	/**
-	 * @return String
+	 * @param field_type $subject
 	 */
-	public function getMessage_body() {
-		return $this->message_body;
+	public function setSubject($subject) {
+		$this->subject = $subject;
 	}
 
 	/**
-	 * @param field_type Message Title
+	 * @return the $timestamp
 	 */
-	public function setMessage_title($message_title) {
-		$this->message_title = $message_title;
+	public function getTimestamp() {
+		return $this->timestamp;
 	}
 
 	/**
-	 * @param field_type Message Subject
+	 * @param field_type $timestamp
 	 */
-	public function setMessage_subject($message_subject) {
-		$this->message_subject = $message_subject;
+	public function setTimestamp($timestamp) {
+		$this->timestamp = $timestamp;
 	}
 
 	/**
-	 * @param field_type Message Timestamp
+	 * @return the $body
 	 */
-	public function setMessage_timestamp($message_timestamp) {
-		$this->message_timestamp = $message_timestamp;
+	public function getBody() {
+		return $this->body;
 	}
 
 	/**
-	 * @param field_type Message Body
+	 * @param field_type $body
 	 */
-	public function setMessage_body($message_body) {
-		$this->message_body = $message_body;
+	public function setBody($body) {
+		$this->body = $body;
 	}
 
 

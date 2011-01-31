@@ -1,0 +1,122 @@
+/*
+This is the css for the TFFW introduction page. Feel free to delete it.
+*/
+html, * {
+	padding:0;
+	margin:0;
+}
+body {
+	background-color:#555555;
+	margin:0 auto;
+	font-size:1.0em;
+	color:#999999;
+	font-family:Geneva, Arial, Helvetica, sans-serif;
+}
+
+/* headers */
+h1 {
+	font-size:3.4em;
+	text-align:center;
+	padding-top:20px;
+	color:#ffffff;
+	letter-spacing:3px;
+	font-weight:normal;
+}
+h2 {
+	color:#5580B4;
+	display:inline;
+	padding:0 0px;
+	margin:5px 0;
+}
+h3 {
+	background-color:#5580B4;
+	font-size:1.3em;
+	font-weight:normal;
+	color:#202020;
+}
+h4 {
+	color:#5580B4;
+	padding:2px;
+	
+}
+
+p {
+	margin:2px 0 15px 0;
+	line-height:1.3em;
+}
+
+a {
+	color:black;
+	text-decoration:none;
+}
+a:hover {
+	border-bottom:1px solid;
+	color:#5580B4;
+}
+#footer a {
+	color:#ffffff;
+	text-decoration:none;
+	border:none;
+}
+#footer a:hover {
+	border:thin, bottom;
+}
+
+/* container, header and nav */
+div#container {
+	background-color:#333333;
+	width:70%;
+	padding:5px 5px 0 5px;
+	margin-left: 15%;
+
+}
+div#header {
+	background-image:url('../images/headerbg.jpg');
+	background-repeat:no-repeat;
+	background-position:center center;
+	background-color:#111111;
+	height:120px;
+	padding:10px;
+}
+div#header p {
+	text-align:center;
+	padding:0;
+	margin:0;
+	font-size:0.8em;
+	color:#ffffff;
+}
+
+
+
+div#content {
+	padding:20px 10px 10px 10px;
+	margin: 20px;
+	background-color:#444444;
+}
+
+div#page {
+	width:100%;
+	float:left;
+}
+
+
+div#footer {
+	padding:20px 12px;
+	background-color:#325479;
+	color:#ffffff;
+}
+div#footer p {
+	font-size:0.6em;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	text-align:center;
+	margin:0;
+	padding:5px;
+}
+
+
+.bold {
+	font-weight:bold;
+}
+.clear {
+	clear:both;
+}

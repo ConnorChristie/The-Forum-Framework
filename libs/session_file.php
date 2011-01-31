@@ -14,10 +14,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-
-DON'T EDIT THIS FILE!!!
-TO ADD AND MODIFY SETTINGS, EDIT CONGIF.INI
+z
 */
 /**
  * Controls and processes session files in the session directory.
@@ -30,41 +27,41 @@ class session_file {
 	/**
 	 * Creates session file
 	 */
-  function createFile(){
-    define ( SESSION_PATH, ROOT . DS . "sessions" . DS );
-    $data =
-"id = " . $this->session_id . "
-username = " . $this->session_username . "
-expires = " . $this->session_expires;
+	function createFile() {
+		$data = "id = " . $this->id . "
+username = " . $this->username . "
+expires = " . $this->expires;
 
-    $filename = SESSION_PATH . $this->session_id . ".ses";
+		$filename = "../sessions/" . $this->id . ".ses";
 
-    //Open or make the file in write mode.
-    $session_file = fopen ( $filename, "w+" );
+		//Open or make the file in write mode.
+		$file = fopen ( $filename, "w+" );
+		if (! $file)
+			throw new tffw_exception ( "Session file could not be created!", "Warning" );
 
-    //Write the session template to file
-    fwrite ( $session_file, $data );
-  }
-  /**
-   * Checks if a file exists with the current session ID
-   * @return Boolean
-   */
-  function fileExists(){
-    define ( SESSION_PATH, ROOT . DS . "sessions" . DS );
-    $filename = SESSION_PATH . $this->session_id . ".ses";
-    if (file_exists ( $filename ))
-      return true;
-    else
-      return false;
-  }
-  /**
-   * Deletes session file
-   */
-  function deleteFile(){
-    define ( SESSION_PATH, ROOT . DS . "sessions" . DS );
-    $filename = SESSION_PATH . $this->session_id . ".ses";
-	unlink($filename);
-  }
+		//Write the session template to file
+		fwrite ( $file, $data );
+	}
+	/**
+	 * Checks if a file exists with the current session ID
+	 * @return Boolean
+	 */
+	function fileExists() {
+		$filename = "../sessions/" . $this->id . ".ses";
+		if (file_exists ( $filename ))
+			return true;
+		else
+			return false;
+	}
+	/**
+	 * Deletes session file
+	 */
+	function deleteFile() {
+		$filename = "../sessions/" . $this->id . ".ses";
+		if (is_file ( $filename ))
+			unlink ( $filename );
+
+	}
 }
 
 ?>

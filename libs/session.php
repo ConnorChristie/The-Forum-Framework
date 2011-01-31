@@ -15,34 +15,45 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-DON'T EDIT THIS FILE!!!
-TO ADD AND MODIFY SETTINGS, EDIT CONGIF.INI
 */
 /**
  * Controls and processes sessions.
  * @author Jack Scott <jack@ttocskcaj.com>
  * @copyright Copyright 2011 Jack Scott
- * @license GNU General Public License Version 3
+ * @license GPLv3
  * @version alpha
  */
-class session extends session_file{
+class session extends session_file {
 
-	public $session_id;
-	public $session_username;
-	public $session_expires;
+  public $id;
+  public $username;
+  public $expires;
 
-  function __construct($session_id,$session_username,$session_length){
-	$this->session_id = $session_id;
-	$this->session_username = $session_username;
-	$this->session_length = $session_length;
+  function __construct($id, $username, $expires){
+    $this->id = $id;
+    $this->username = $username;
+    $this->expires = $expires;
+    if (! $this->sessionExists ()) {
+      $this->createSession ();
+    }
 
   }
+  function createSession(){
+    $this->createFile ();
+    $_SESSION [$this->id] = array ("id" => $this->id, "username" => $this->username, "expires" => $this->expires );
+  }
   function sessionExists(){
-  	if ($this->fileExists()){
-  		return true;
-  	}
-  	else return false;
+    if ($this->fileExists () && (isset ( $_SESSION [$this->id] ))) {
+    	/*TODO: Write session expirery check */
+    	//A complete session was found. It has not expired.
+      return true;
+    }
+    else {
+    	//Session data is missing or not complete. Delete any incomplete data.
+      if(isset($_SESSION)) unset ( $_SESSION [$this->id] );
+      $this->deleteFile ();
+      return false;
+    }
   }
 
 }

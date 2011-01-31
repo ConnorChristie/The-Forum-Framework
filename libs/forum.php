@@ -17,107 +17,138 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 class forum {
-	public $forum_title;
-	public $forum_explanation;
-	public $forum_parent;
-	public $forum_id;
-	public $forum_threads = array();
-  /**
- * @return the $forum_title
- */
-  public function getForum_title(){
-    return $this->forum_title;
-  }
+	public $title;
+	public $explanation;
+	public $parent;
+	public $id;
+	public $type;
+	public $threads = array ();
 
+	function __construct() {
+		$this->settings = new settings ();
+		$this->mysql = new mysql ();
+	}
 	/**
- * @return the $forum_explanation
- */
-  public function getForum_explanation(){
-    return $this->forum_explanation;
-  }
-
-	/**
- * @return the $forum_parent
- */
-  public function getForum_parent(){
-    return $this->forum_parent;
-  }
-
-	/**
- * @return the $forum_id
- */
-  public function getForum_id(){
-    return $this->forum_id;
-  }
-
-	/**
- * @param field_type $forum_title
- */
-  public function setForum_title($forum_title){
-    $this->forum_title = $forum_title;
-  }
-
-	/**
- * @param field_type $forum_explanation
- */
-  public function setForum_explanation($forum_explanation){
-    $this->forum_explanation = $forum_explanation;
-  }
-
-	/**
- * @param field_type $forum_parent
- */
-  public function setForum_parent($forum_parent){
-    $this->forum_parent = $forum_parent;
-  }
-
-	/**
- * @param field_type $forum_id
- */
-  public function setForum_id($forum_id){
-    $this->forum_id = $forum_id;
-  }
-
-/**
- * @return the $forum_threads
- */
-  public function getForum_threads(){
-    return $this->forum_threads;
-  }
-
-	/**
- * @param field_type $forum_threads
- */
-  public function setForum_threads($forum_threads){
-    $this->forum_threads = $forum_threads;
-  }
-
-function __construct(){
-    $this->settings = new settings ();
-    $this->mysql = new mysql();
-  }
-  function load($forum_id){
-  	$this->forum_id = $forum_id;
-	$sql = $this->mysql->query("
+	 * Loads an existing forum from the database using the forum's ID
+	 * Creates an array of threads inside the forum.
+	 * @param Integer $id
+	 */
+	function load($forum_id) {
+		$this->id = $forum_id;
+		$sql = $this->mysql->query ( "
 			SELECT *
 			FROM threads
-			WHERE `forum` = '$this->forum_id'
-	");
-	if(!$sql) throw new mysql_exception("Threads could not be loaded for forum!", mysql_error(), "Fatal Error");
-	while ($row = mysql_fetch_array($sql)){
-      $this->forum_threads[$row['id']] = $row['id'];
-	}
-	$sql = $this->mysql->query("
+			WHERE `forum` = '$this->id'
+	" );
+		if (! $sql)
+			throw new tffw_exception ( "Threads could not be loaded for forum!", "Fatal Error", mysql_error () );
+		while ( $row = mysql_fetch_array ( $sql ) ) {
+			$this->threads [$row ['id']] = $row ['id'];
+		}
+		$sql = $this->mysql->query ( "
 			SELECT *
 			FROM forums
-			WHERE `id` = '$this->forum_id'
-	");
-	if(!$sql) throw new mysql_exception("Threads could not be loaded for forum!", mysql_error(), "Fatal Error");
-	$row = mysql_fetch_array($sql);
-	$this->forum_title  = $row['title'];
-	$this->forum_parent = $row['parent'];
-	$this->forum_explanation = $row['explanation'];
-  }
+			WHERE `id` = '$this->id'
+	" );
+		if (! $sql)
+			throw new tffw_exception ( "Threads could not be loaded for forum!", "Fatal Error", mysql_error () );
+		$row = mysql_fetch_array ( $sql );
+		$this->title = $row ['title'];
+		$this->parent = $row ['parent'];
+		$this->explanation = $row ['explanation'];
+	}
+	/**
+	 * @return the $title
+	 */
+	function save(){
+		$sql = $this->mysql->query ( "
+				INSERT INTO `forums`
+				(`title`,`explanation`,`parent`,`type`)
+				VALUES
+				('$this->title','$this->explanation','$this->parent','$this->type')
+		" );
+	}
+	public function getTitle() {
+		return $this->title;
+	}
+
+	/**
+	 * @param field_type $title
+	 */
+	public function setTitle($title) {
+		$this->title = $title;
+	}
+
+	/**
+	 * @return the $explanation
+	 */
+	public function getExplanation() {
+		return $this->explanation;
+	}
+
+	/**
+	 * @param field_type $explanation
+	 */
+	public function setExplanation($explanation) {
+		$this->explanation = $explanation;
+	}
+
+	/**
+	 * @return the $parent
+	 */
+	public function getParent() {
+		return $this->parent;
+	}
+
+	/**
+	 * @param field_type $parent
+	 */
+	public function setParent($parent) {
+		$this->parent = $parent;
+	}
+
+	/**
+	 * @return the $id
+	 */
+	public function getId() {
+		return $this->id;
+	}
+
+	/**
+	 * @param field_type $id
+	 */
+	public function setId($id) {
+		$this->id = $id;
+	}
+
+	/**
+	 * @return the $threads
+	 */
+	public function getThreads() {
+		return $this->threads;
+	}
+
+	/**
+	 * @param field_type $threads
+	 */
+	public function setThreads($threads) {
+		$this->threads = $threads;
+	}
+	/**
+	 * @return the $type
+	 */
+	public function getType() {
+		return $this->type;
+	}
+
+	/**
+	 * @param field_type $type
+	 */
+	public function setType($type) {
+		$this->type = $type;
+	}
+
+
 }
 
 ?>

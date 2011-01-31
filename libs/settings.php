@@ -23,7 +23,7 @@ TO ADD AND MODIFY SETTINGS, EDIT CONGIF.INI
  * Controls and processes ini files in the config directory.
  * @author Jack Scott <jack@ttocskcaj.com>
  * @copyright Copyright 2011 Jack Scott
- * @license GNU General Public License Version 3
+ * @license GPLv3
  * @version alpha
  */
 class settings {
@@ -35,7 +35,9 @@ class settings {
 		 You can call them by using $settings_object->setting_key
 		 This will return the value of the assosiated key.
 		 */
-  	$this->config_ini = parse_ini_file ( ROOT . DS . 'config' . DS . "config.ini" );
+  	//Create an array from the config file.
+  	$this->config_ini = parse_ini_file ( '../config/config.ini' );
+  	//Set each setting to it's own parameter.
     foreach ( array_keys ( $this->config_ini ) as $setting ) {
       $this->$setting = $this->config_ini [$setting];
     }
@@ -53,5 +55,14 @@ class settings {
    */
   function define($setting, $value){
     $this->$setting = $value;
+  }
+  /**
+   * Universal getter for settings.
+   * eg $settings->get("mysql_server"); would return the value of mysql_server in config.ini
+   * @param String $variable
+   * @return Mixed
+   */
+  function get($variable){
+	return $this->$variable;
   }
 }

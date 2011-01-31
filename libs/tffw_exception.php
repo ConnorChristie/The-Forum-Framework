@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * Default exception handler for TFFW.
  * @author Jack Scott <jack@ttocskcaj.com>
  * @copyright Copyright 2011 Jack Scott
- * @license GNU General Public License Version 3
+ * @license GPLv3
  * @version alpha
  */
 class tffw_exception extends Exception {
@@ -74,4 +74,32 @@ class tffw_exception extends Exception {
       $e->reportError ();
     }
   }
+/**
+	 * @return the $weight
+	 */
+	public function getWeight() {
+		return $this->weight;
+	}
+
+/**
+	 * @param String $weight
+	 */
+	public function setWeight($weight) {
+		$this->weight = $weight;
+	}
+
+/**
+	 * @return the $mysql_error
+	 */
+	public function getMysql_error() {
+		return $this->mysql_error;
+	}
+
+/**
+	 * @param String $mysql_error
+	 */
+	public function setMysql_error($mysql_error) {
+		$this->mysql_error = $mysql_error;
+	}
+
 }

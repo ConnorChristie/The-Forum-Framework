@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * MySQL Class, for modifying database.
  * @author Jack
  * @version 1.0
- *
+ * @license GPLv3
  */
 class mysql {
   /**
@@ -28,48 +28,48 @@ class mysql {
    * Set in config.ini
    * @var String
    */
-  public $mysql_server;
+  public $server;
   /**
    * MySQL server username.
    * Set in config.ini
    * @var String
    */
-  public $mysql_username;
+  public $username;
   /**
    * MySQL server password.
    * Set in config.ini
    * @var String
    */
-  public $mysql_password;
+  public $password;
   /**
    * MySQL database.
    * Set in config.ini
    * @var String
    */
-  public $mysql_database;
+  public $database;
 
   /**
    *
-   * Class Constructor. Sets local variables from the config.ini file.
+   * Class Constructor. Sets local properties from a settings object.
    */
   function __construct(){
-    //Set variables from config.ini
     $this->settings = new settings ();
-    $this->mysql_server = $this->settings->mysql_server;
-    $this->mysql_username = $this->settings->mysql_username;
-    $this->mysql_password = $this->settings->mysql_password;
-    $this->mysql_database = $this->settings->mysql_database;
+    $this->server = $this->settings->mysql_server;
+    $this->username = $this->settings->mysql_username;
+    $this->password = $this->settings->mysql_password;
+    $this->database = $this->settings->mysql_database;
   }
   /**
-   * Wrapper for the normal mysql_query() function, no need to connect or select db first.
+   * Wrapper for the normal query() function, no need to connect or select db first.
    * @param String $query
    */
   function query($query){
     //Try and connect to MySQL server and select database.
-    if (! mysql_connect ( $this->mysql_server, $this->mysql_username, $this->mysql_password )) throw new tffw_exception ( "MySQL Query Failed.", "Fatal Error.", mysql_error () );
-    if (! mysql_select_db ( $this->settings->mysql_database )) throw new tffw_exception ( "MySQL Query Failed.", "Fatal Error.", mysql_error () );
+    if (! mysql_connect ( $this->server, $this->username, $this->password )) throw new tffw_exception ( "MySQL Query Failed.", "Fatal Error.", mysql_error () );
+    if (! mysql_select_db ( $this->database )) throw new tffw_exception ( "MySQL Query Failed.", "Fatal Error.", mysql_error () );
     $sql = mysql_query ( $query );
     if (! $sql) {
+    	//MySQL query has failed. Throw an exception.
       throw new tffw_exception ( "MySQL Query Failed.", "Fatal Error.", mysql_error () );
       return false;
     }
