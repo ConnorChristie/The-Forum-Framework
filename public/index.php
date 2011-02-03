@@ -16,7 +16,11 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
-
+//Turn off error reporting.
+error_reporting(0);
+/*
+ * Check that php version is at least 5.0
+ */
 if (version_compare ( PHP_VERSION, '5.0' ) < 0) {
 	$php_version ['text'] = '<strong style="color:red;">' . PHP_VERSION . "</strong>";
 	$php_version [2] = false;
@@ -24,6 +28,9 @@ if (version_compare ( PHP_VERSION, '5.0' ) < 0) {
 	$php_version ['text'] = '<strong style="color:lightgreen;">' . PHP_VERSION . "</strong>";
 	$php_version [2] = true;
 }
+/*
+ * Check that register globals is off
+ */
 if (@ini_get ( 'register_globals' ) == '1' || strtolower ( @ini_get ( 'register_globals' ) ) == 'on') {
 	$register_globals ['text'] = '<strong style="color:red;">On</strong>';
 	$register_globals [2] = false;
@@ -31,14 +38,25 @@ if (@ini_get ( 'register_globals' ) == '1' || strtolower ( @ini_get ( 'register_
 	$register_globals ['text'] = '<strong style="color:lightgreen;">Off</strong>';
 	$register_globals [2] = true;
 }
+/*
+ * Check that config.ini can be read
+ */
 if (file_exists ( "../config/config.ini" )) {
-	$config_file ['text'] = '<strong style="color:lightgreen;">Found</strong>';
-	$config_file [2] = true;
+	if(fopen("../config/config.ini" , "r")){
+		$config_file ['text'] = '<strong style="color:lightgreen;">Readable</strong>';
+		$config_file [2] = true;
+	} else{
+		$config_file ['text'] = '<strong style="color:red;">Found but not readable</strong>';
+		$config_file [2] = false;
+	}
 } else {
 
 	$config_file ['text'] = '<strong style="color:red;">Not Found</strong>';
 	$config_file [2] = false;
 }
+/*
+ * Check that the library files can be read.
+ */
 if (is_dir ( "../libs" )) {
 	opendir ( "../libs" );
 	if (readdir ()) {
@@ -52,7 +70,28 @@ if (is_dir ( "../libs" )) {
 	$libs_dir ['text'] = '<strong style="color:red;">Not Found</strong>';
 	$libs_dir [2] = true;
 }
-
+/*
+ * Check database extensions
+ */
+if(extension_loaded("mysql"))$mysql['text'] = '<strong style="color:lightgreen">Available - </strong>';
+else $mysql['text'] = '<strong style="color:red">Not available - </strong>';
+/*
+ * Check MySQL connection
+ */
+include('../libs/settings.php');
+if ($config_file [2]){
+	$settings = new settings();
+	if(!mysql_connect($settings->mysql_server, $settings->mysql_username, $settings->mysql_password)){
+		$mysql[2] = false;
+		$mysql['text'].= '<strong style="color:red">Connection Failed</strong>';
+	}else{
+		$mysql[2] = true;
+		$mysql['text'].= '<strong style="color:lightgreen">Connection OK</strong>';
+	}
+}else{
+	$mysql[2] = false;
+	$mysql['text']= '<strong style="color:orange">Please create a config.ini and refresh</strong>';
+}
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -85,14 +124,17 @@ echo $config_file ['text'];
 <p>Library Files: <?php
 echo $libs_dir ['text'];
 ?></p>
+<p>MySQL Connection: <?php
+echo $mysql ['text'];
+?></p>
   <?php
 		if (! $php_version [2])
 			echo '<p style="color:red;">You must have php version 5.0 or higher to run TFFW</p>';
 		if (! $config_file [2])
-			echo '<p style="color:red;">Your config file could not be found. Please see /config/readme.txt</p>';
+			echo '<p style="color:red;">Your config file could not be found or read. Please see /config/readme.txt</p>';
 		if (! $register_globals [2])
 			echo '<p style="color:red;">It is recommened that register_globals is off. TFFW will still run.</p>';
-		if ($php_version && $config_file && $register_globals)
+		if ($php_version[2] && $config_file[2] && $register_globals[2] && $libs_dir[2] && $mysql[2])
 			echo '<p style="color:lightgreen;">Your system is ready to run TFFW</p>';
 
 		?>
@@ -119,6 +161,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.
 </p>
+<p><a href="../license.txt">Read Full License</a></p>
 <br /><br />
 </div>
 <div id="footer">

@@ -64,8 +64,6 @@ class session extends session_file {
 	function __destruct(){
 		$this->deleteFile();
 	}
-
-
 }
 
 ?>

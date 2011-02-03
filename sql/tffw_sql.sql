@@ -1,18 +1,30 @@
 # --------------------------------------------------------
 # Host:                         127.0.0.1
-# Server version:               5.1.41
+# Server version:               5.5.8
 # Server OS:                    Win32
 # HeidiSQL version:             6.0.0.3603
-# Date/time:                    2011-01-29 15:34:52
+# Date/time:                    2011-02-02 18:57:19
+# --------------------------------------------------------
 
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET NAMES utf8 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+
+# Dumping structure for table tffw.ban_list
 DROP TABLE IF EXISTS `ban_list`;
 CREATE TABLE IF NOT EXISTS `ban_list` (
   `ID` int(10) NOT NULL AUTO_INCREMENT,
   `ip` varchar(50) NOT NULL DEFAULT '0',
   `username` varchar(50) NOT NULL DEFAULT '0',
+  `reason` mediumtext,
   PRIMARY KEY (`ID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+# Data exporting was unselected.
+
+
+# Dumping structure for table tffw.errors
 DROP TABLE IF EXISTS `errors`;
 CREATE TABLE IF NOT EXISTS `errors` (
   `ID` int(10) NOT NULL AUTO_INCREMENT,
