@@ -53,31 +53,30 @@ class mysql {
    * Class Constructor. Sets local properties from a settings object.
    */
   function __construct(){
-    $this->settings = new settings ();
-    $this->server = $this->settings->mysql_server;
-    $this->username = $this->settings->mysql_username;
-    $this->password = $this->settings->mysql_password;
-    $this->database = $this->settings->mysql_database;
+
+//    $this->server = $this->settings->mysql_server;
+//    $this->username = $this->settings->mysql_username;
+//    $this->password = $this->settings->mysql_password;
+//    $this->database = $this->settings->mysql_database;
   }
   /**
    * Wrapper for the normal query() function, no need to connect or select db first.
    * @param String $query
    */
-  function query($query){
+  static function connect(){
+  	$settings = new settings ();
     //Try and connect to MySQL server and select database.
-    if (! mysql_connect ( $this->server, $this->username, $this->password )) throw new tffw_exception ( "MySQL Query Failed.", "Fatal Error.", mysql_error () );
-    if (! mysql_select_db ( $this->database )) throw new tffw_exception ( "MySQL Query Failed.", "Fatal Error.", mysql_error () );
-    $sql = mysql_query ( $query );
-    if (! $sql) {
-    	//MySQL query has failed. Throw an exception.
-      throw new tffw_exception ( "MySQL Query Failed.", "Fatal Error.", mysql_error () );
-      return false;
+    if (! mysql_connect ( $settings->mysql_server, $settings->mysql_username, $settings->mysql_password )) {
+    	throw new tffw_exception ( "MySQL Query Failed.", "Fatal Error.", mysql_error () );
+    	return false;
+    }
+    if (! mysql_select_db ( $settings->mysql_database )) {
+    	throw new tffw_exception ( "MySQL Query Failed.", "Fatal Error.", mysql_error () );
+    	return false;
     }
 
-    else {
-      mysql_close ();
-      return $sql;
-    }
-
+  }
+  static function disconnect(){
+  	mysql_close();
   }
 }
