@@ -35,7 +35,8 @@ class forum {
 	 */
 	function load($forum_id) {
 		$this->id = $forum_id;
-		$sql = $this->mysql->query ( "
+		mysql::connect();
+		$sql = mysql_query ( "
 			SELECT *
 			FROM threads
 			WHERE `forum` = '$this->id'
@@ -45,7 +46,7 @@ class forum {
 		while ( $row = mysql_fetch_array ( $sql ) ) {
 			$this->threads [$row ['id']] = $row ['id'];
 		}
-		$sql = $this->mysql->query ( "
+		$sql = mysql_query ( "
 			SELECT *
 			FROM forums
 			WHERE `id` = '$this->id'
@@ -56,12 +57,14 @@ class forum {
 		$this->title = $row ['title'];
 		$this->parent = $row ['parent'];
 		$this->explanation = $row ['explanation'];
+		mysql::disconnect();
 	}
 	/**
 	 * @return the $title
 	 */
 	function save() {
-		$sql = $this->mysql->query ( "
+		mysql::connect();
+		$sql = mysql_query ( "
 						SELECT *
 						FROM `forums`
 						WHERE `title` = '$this->title'
@@ -70,7 +73,7 @@ class forum {
 						AND `parent` = '$this->parent'
 						" );
 		if (mysql_num_rows ( $sql ) < 1) {
-			$sql = $this->mysql->query ( "
+			$sql = mysql_query ( "
 				INSERT INTO `forums`
 				(`title`,`explanation`,`parent`,`type`)
 				VALUES
@@ -78,8 +81,9 @@ class forum {
 				" );
 			$row = mysql_fetch_array($this->mysql->query("select last_insert_id()"));
 			$this->id = $row[0];
+			mysql::disconnect();
 		} else {
-			$sql = $this->mysql->query("
+			$sql = mysql_query("
 				UPDATE `forums`
 				SET
 				`title` = '$this->title',
@@ -90,6 +94,7 @@ class forum {
 			");
 			$row = mysql_fetch_array($this->mysql->query("select last_insert_id()"));
 			$this->id = $row[0];
+			mysql::disconnect();
 		}
 		if (! $sql) throw new tffw_exception( "Could not save forum", "Fatal Error", mysql_error () );
 	}

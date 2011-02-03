@@ -37,6 +37,7 @@ class tffw_exception extends Exception {
   public function __construct($message, $weight, $mysql_error = null){
     $this->message = $message;
     $this->weight = $weight;
+    $this->mysql_error = $mysql_error;
     $this->mysql = new mysql ();
     $this->settings = new settings ();
 
@@ -45,7 +46,8 @@ class tffw_exception extends Exception {
    * Draws a basic error page for the end users. Only shows the message and weight.
    */
   public function drawErrorPage(){
-    include( ROOT . DS . "templates/error_page.html");
+    include( "../templates/error_page.html");
+    echo "$this->file, line $this->line";
   }
   public function reportError($email = null, $db = null){
     $this->file = mysql_real_escape_string ( $this->file );

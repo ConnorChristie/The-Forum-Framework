@@ -33,7 +33,8 @@ class post {
 	}
 	function load($post_id, $get_username = false) {
 		$this->id = $post_id;
-		$sql = $this->mysql->query ( "
+		mysql::connect();
+		$sql = mysql_query ( "
 			SELECT *
 			FROM `posts`
 			WHERE `id` = '$this->id'
@@ -47,20 +48,24 @@ class post {
 		$this->body = $row ['body'];
 		$this->type = $row ['type'];
 		$id = $this->poster ['id'];
+		mysql::disconnect();
 
 		//If requested, get the username of the poster. (normally only an ID is fetched).
 		if ($get_username) {
-			$sql = $this->mysql->query ( "
+			mysql::connect();
+			$sql = mysql_query ( "
 			SELECT *
 			FROM `users`
 			WHERE `id` = '$id'
 			" ) or die ( mysql_error () );
 			$row = mysql_fetch_array ( $sql );
 			$this->poster ['username'] = $row ['username'];
+			mysql::disconnect();
 		}
 	}
 	function save() {
-		$sql = $this->mysql->query ( "
+		mysql::connect();
+		$sql = mysql_query ( "
 						SELECT *
 						FROM `posts`
 						WHERE `thread` = '$this->thread'
@@ -69,17 +74,20 @@ class post {
 						AND `body` = '$this->body'
 						AND `type` = '$this->type'
 						");
+		if (!$sql) die (mysql_error());
 		if (mysql_num_rows ( $sql ) < 1) {
-			$sql = $this->mysql->query ( "
+			$sql = mysql_query ( "
 				INSERT INTO `posts`
 				(`thread`,`poster`,`subject`,`body`,`type`)
 				VALUES
 				('$this->thread','$this->poster','$this->subject','$this->body','$this->type')
 				" );
-			$row = mysql_fetch_array($this->mysql->query("select last_insert_id()"));
+			$row = mysql_fetch_array(mysql_query("select last_insert_id()"));
 			$this->id = $row[0];
+			mysql::disconnect();
 		} else{
-			$sql = $this->mysql->query ( "
+			mysql::connect();
+			$sql = mysql_query ( "
 				UPDATE `posts`
 				SET
 				`thread` = '$this->thread',
@@ -89,8 +97,9 @@ class post {
 				`type` = '$this->type'
 				WHERE `id` = '$this->id'
 				" );
-			$row = mysql_fetch_array($this->mysql->query("select last_insert_id()"));
+			$row = mysql_fetch_array(mysql_query("select last_insert_id()"));
 			$this->id = $row[0];
+			mysql::disconnect();
 		}
 		if (! $sql)
 			throw new tffw_exception ( "Could not save thread", "Fatal Error", mysql_error () );
