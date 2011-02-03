@@ -118,7 +118,7 @@ class thread {
 		$sql = $this->mysql->query ( "
 						SELECT *
 						FROM `threads`
-						WEHERE
+						WHERE
 						`forum` = '$this->forum'
 						AND `poster` = '$this->poster'
 						AND `subject` = '$this->subject'

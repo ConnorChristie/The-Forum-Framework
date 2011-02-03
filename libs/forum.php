@@ -64,7 +64,7 @@ class forum {
 		$sql = $this->mysql->query ( "
 						SELECT *
 						FROM `forums`
-						WEHERE `title` = '$this->title'
+						WHERE `title` = '$this->title'
 						AND `explanation` = '$this->explanation'
 						AND `type` = '$this->type'
 						AND `parent` = '$this->parent'

@@ -63,7 +63,7 @@ class post {
 		$sql = $this->mysql->query ( "
 						SELECT *
 						FROM `posts`
-						WEHERE `thread` = '$this->thread'
+						WHERE `thread` = '$this->thread'
 						AND `poster` = '$this->poster'
 						AND `subject` = '$this->subject'
 						AND `body` = '$this->body'
