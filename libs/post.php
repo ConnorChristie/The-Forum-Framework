@@ -61,12 +61,30 @@ class post {
 	}
 	function save() {
 		$sql = $this->mysql->query ( "
+						SELECT *
+						FROM `posts`
+						WEHERE id = '$this->id'" );
+		if (mysql_num_rows ( $sql ) < 1) {
+			$sql = $this->mysql->query ( "
 				INSERT INTO `posts`
 				(`thread`,`poster`,`subject`,`body`,`type`)
 				VALUES
 				('$this->thread','$this->poster','$this->subject','$this->body','$this->type')
-		" );
-		if(!$sql) throw new tffw_exception("Could not save thread", "Fatal Error", mysql_error());
+				" );
+		} else{
+			$sql = $this->mysql->query ( "
+				UPDATE `posts`
+				SET
+				`thread` = '$this->thread',
+				`poster` = '$this->poster',
+				`subject` = '$this->subject',
+				`body` = '$this->body',
+				`type` = '$this->type'
+				WHERE `id` = '$this->id'
+				" );
+		}
+		if (! $sql)
+			throw new tffw_exception ( "Could not save thread", "Fatal Error", mysql_error () );
 	}
 	/**
 	 * @return the $id
@@ -151,8 +169,5 @@ class post {
 	public function setType($type) {
 		$this->type = $type;
 	}
-
-
-
 
 }

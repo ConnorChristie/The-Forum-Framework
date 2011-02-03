@@ -78,7 +78,7 @@ class thread {
 		SET `status` = '$status'
 		WHERE `id` = '$this->id'
 		" ))
-				throw new mysql_exception ( "Could not close thread", mysql_error (), "Fatal Error" );
+				throw new tffw_exception ( "Could not close thread", "Fatal Error", mysql_error () );
 			return true;
 		}
 		return false;
@@ -114,13 +114,31 @@ class thread {
 		$this->subject = $row ['subject'];
 		$this->timestamp = $row ['timestamp'];
 	}
-	function save(){
+	function save() {
 		$sql = $this->mysql->query ( "
+						SELECT *
+						FROM `threads`
+						WEHERE id = '$this->id'" );
+		if (mysql_num_rows ( $sql ) < 1) {
+			$sql = $this->mysql->query ( "
 				INSERT INTO `threads`
 				(`forum`,`poster`,`subject`,`type`)
 				VALUES
 				('$this->forum','$this->poster','$this->subject','$this->type')
-		" );
+				" );
+		} else {
+			$sql = $this->mysql->query ( "
+				UPDATE `threads`
+				SET
+				`forum` = '$this->forum',
+				`poster` = '$this->poster',
+				`subject` = '$this->subject',
+				`type` = '$this->type'
+				WHERE `id` = '$this->id'
+				" );
+		}
+		if (! $sql)
+			throw new tffw_exception ( "Could not save thread", "Fatal Error", mysql_error () );
 	}
 	/**
 	 * @return the $posts

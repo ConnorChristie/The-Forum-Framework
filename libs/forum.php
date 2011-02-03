@@ -60,13 +60,30 @@ class forum {
 	/**
 	 * @return the $title
 	 */
-	function save(){
+	function save() {
 		$sql = $this->mysql->query ( "
+						SELECT *
+						FROM `forums`
+						WEHERE id = '$this->id'" );
+		if (mysql_num_rows ( $sql ) < 1) {
+			$sql = $this->mysql->query ( "
 				INSERT INTO `forums`
 				(`title`,`explanation`,`parent`,`type`)
 				VALUES
 				('$this->title','$this->explanation','$this->parent','$this->type')
-		" );
+				" );
+		} else {
+			$sql = $this->mysql->query("
+				UPDATE `forums`
+				SET
+				`title` = '$this->title',
+				`explanation` = '$this->explanation',
+				`parent` = '$this->parent',
+				`type` = '$this->type'
+				WHERE `id` = '$this->id'
+			");
+		}
+		if (! $sql) throw new tffw_exception( "Could not save forum", "Fatal Error", mysql_error () );
 	}
 	public function getTitle() {
 		return $this->title;
@@ -147,7 +164,6 @@ class forum {
 	public function setType($type) {
 		$this->type = $type;
 	}
-
 
 }
 
