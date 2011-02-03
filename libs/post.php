@@ -63,7 +63,12 @@ class post {
 		$sql = $this->mysql->query ( "
 						SELECT *
 						FROM `posts`
-						WEHERE id = '$this->id'" );
+						WEHERE `thread` = '$this->thread'
+						AND `poster` = '$this->poster'
+						AND `subject` = '$this->subject'
+						AND `body` = '$this->body'
+						AND `type` = '$this->type'
+						");
 		if (mysql_num_rows ( $sql ) < 1) {
 			$sql = $this->mysql->query ( "
 				INSERT INTO `posts`
@@ -71,6 +76,8 @@ class post {
 				VALUES
 				('$this->thread','$this->poster','$this->subject','$this->body','$this->type')
 				" );
+			$row = mysql_fetch_array($this->mysql->query("select last_insert_id()"));
+			$this->id = $row[0];
 		} else{
 			$sql = $this->mysql->query ( "
 				UPDATE `posts`
@@ -82,6 +89,8 @@ class post {
 				`type` = '$this->type'
 				WHERE `id` = '$this->id'
 				" );
+			$row = mysql_fetch_array($this->mysql->query("select last_insert_id()"));
+			$this->id = $row[0];
 		}
 		if (! $sql)
 			throw new tffw_exception ( "Could not save thread", "Fatal Error", mysql_error () );

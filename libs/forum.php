@@ -64,7 +64,11 @@ class forum {
 		$sql = $this->mysql->query ( "
 						SELECT *
 						FROM `forums`
-						WEHERE id = '$this->id'" );
+						WEHERE `title` = '$this->title'
+						AND `explanation` = '$this->explanation'
+						AND `type` = '$this->type'
+						AND `parent` = '$this->parent'
+						" );
 		if (mysql_num_rows ( $sql ) < 1) {
 			$sql = $this->mysql->query ( "
 				INSERT INTO `forums`
@@ -72,6 +76,8 @@ class forum {
 				VALUES
 				('$this->title','$this->explanation','$this->parent','$this->type')
 				" );
+			$row = mysql_fetch_array($this->mysql->query("select last_insert_id()"));
+			$this->id = $row[0];
 		} else {
 			$sql = $this->mysql->query("
 				UPDATE `forums`
@@ -82,6 +88,8 @@ class forum {
 				`type` = '$this->type'
 				WHERE `id` = '$this->id'
 			");
+			$row = mysql_fetch_array($this->mysql->query("select last_insert_id()"));
+			$this->id = $row[0];
 		}
 		if (! $sql) throw new tffw_exception( "Could not save forum", "Fatal Error", mysql_error () );
 	}

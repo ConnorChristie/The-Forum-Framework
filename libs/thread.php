@@ -118,7 +118,12 @@ class thread {
 		$sql = $this->mysql->query ( "
 						SELECT *
 						FROM `threads`
-						WEHERE id = '$this->id'" );
+						WEHERE
+						`forum` = '$this->forum'
+						AND `poster` = '$this->poster'
+						AND `subject` = '$this->subject'
+						AND `type` = '$this->type'
+						" );
 		if (mysql_num_rows ( $sql ) < 1) {
 			$sql = $this->mysql->query ( "
 				INSERT INTO `threads`
@@ -126,6 +131,8 @@ class thread {
 				VALUES
 				('$this->forum','$this->poster','$this->subject','$this->type')
 				" );
+			$row = mysql_fetch_array($this->mysql->query("select last_insert_id()"));
+			$this->id = $row[0];
 		} else {
 			$sql = $this->mysql->query ( "
 				UPDATE `threads`
@@ -136,6 +143,8 @@ class thread {
 				`type` = '$this->type'
 				WHERE `id` = '$this->id'
 				" );
+			$row = mysql_fetch_array($this->mysql->query("select last_insert_id()"));
+			$this->id = $row[0];
 		}
 		if (! $sql)
 			throw new tffw_exception ( "Could not save thread", "Fatal Error", mysql_error () );
