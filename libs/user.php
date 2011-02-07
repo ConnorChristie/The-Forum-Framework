@@ -96,6 +96,17 @@ class user {
 		$this->mysql = new mysql ();
 		$this->settings = new settings ();
 	}
+
+	public function getArray(){
+		return array (  'username'=>$this->username,
+						'email'=>$this->email,
+						'first_name'=>$this->first_name,
+						'last_name'=>$this->last_name,
+						'city'=>$this->city,
+						'country'=>$this->country,
+						'ip'=>$this->ip
+		);
+	}
 	/**
 	 * Checks if user has permission to register, then inserts all user data into database.
 	 * Virutally the same as the save function on other controllers.

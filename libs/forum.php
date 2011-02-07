@@ -98,6 +98,38 @@ class forum {
 		}
 		if (! $sql) throw new tffw_exception( "Could not save forum", "Fatal Error", mysql_error () );
 	}
+	public function getArray() {
+		return array (  "title" => $this->title,
+						"explanation" => $this->explanation,
+						"parent" => $this->parent,
+						"id" => $this->id,
+						"type" => $this->type,
+						"threads" => $this->threads,
+						"num_threads" => $this->getNumberOfThreads(),
+						"num_posts" => $this->getNumberOfPosts()
+		);
+	}
+	/**
+	 * Returns the number of threads in the forum as an integer
+	 * @return Integer
+	 */
+	public function getNumberOfThreads(){
+		return count($this->threads);
+	}
+
+	/**
+	 * Returns the number of posts in the forum as an integer
+	 * @return Integer
+	 */
+	public function getNumberOfPosts(){
+		$total = 0;
+		foreach ($this->threads as $forum_thread){
+			$thread = new thread();
+			$thread->load($forum_thread);
+			$total += count ($thread->posts);
+		}
+		return $total;
+	}
 	public function getTitle() {
 		return $this->title;
 	}
