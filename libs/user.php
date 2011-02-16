@@ -117,8 +117,9 @@ class user {
 		//Connect to database and insert data.
 		$ip = $_SERVER ['REMOTE_ADDR'];
 		if ($this->canRegister ()) {
+			mysql::connect();
 			try {
-				$this->mysql->query ( "
+				mysql_query ( "
 					INSERT INTO users(
 					`username`,
 					`password`,
@@ -142,6 +143,7 @@ class user {
 				throw new tffw_exception ( "User could not be inserted into database", 'Fatal MySQL Error' );
 				$e->reportError ();
 			}
+			mysql::disconnect();
 		}
 	}
 
@@ -155,7 +157,8 @@ class user {
 			//Set IP address var
 			$ip = $_SERVER ['REMOTE_ADDR'];
 			//Check username and password
-			$sql = $this->mysql->query ( "
+			mysql::connect();
+			$sql = mysql_query ( "
 						SELECT *
 						FROM users
 						WHERE `username` = '$this->username'
@@ -180,6 +183,7 @@ class user {
 					$e->reportError ();
 					return false;
 				}
+				mysql::disconnect();
 				//Return true
 				return true;
 			}
@@ -191,7 +195,8 @@ class user {
 	 * @param Integer $user_id
 	 */
 	public function load($user_id) {
-		$sql = $this->mysql->query ( "
+		mysql::connect();
+		$sql = mysql_query ( "
 	  		SELECT *
 	  		FROM `users`
 	  		WHERE `id` = '$this->id'
@@ -207,6 +212,7 @@ class user {
 		$this->city = $row ['city'];
 		$this->country = $row ['country'];
 		$this->ip = $row ['ip'];
+		mysql::disconnect();
 	}
 	public function getID() {
 		return $this->id;
