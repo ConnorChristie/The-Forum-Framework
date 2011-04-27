@@ -1,6 +1,11 @@
 ##Quick Warning
 TFFW is currently in an unstable state. I have just begun developing, so it is likely to change dramatically.
 
+##What TFFW can do
+ - Quickly create a news feed on your homepage.
+ - Create a full fledged web forum.
+ - Manage users and sessions for your site.
+
 ##A quick example
 TFFW is more a collection of php classes than a traditional framework like Zend, Cake and CodeIgniter. 
 Rather than force you to use architecture like MVC, it lets you design your application however you want.
